@@ -3,6 +3,21 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import altair as alt
+import requests
+from io import BytesIO
+
+def fetch_github_file(file_name):
+    base_url = "https://raw.githubusercontent.com/palesunset/testrun/main/"
+    try:
+        response = requests.get(base_url + file_name)
+        response.raise_for_status()  # This will raise an error if the fetch fails
+        return BytesIO(response.content)
+    except requests.RequestException:  # If there's a problem with the request (e.g., the file isn't there), return None
+        return None
+
+# Try fetching from GitHub first
+df1 = pd.read_excel(fetch_github_file("HC_SEMIAUTO_RESULT.xlsx") or st.session_state.uploaded_files.get("HC_SEMIAUTO_RESULT"))
+
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
 
@@ -16,11 +31,11 @@ labels = ['Below 50% Links', '51-70% Links', '71-90% Links', 'Above 90% Links']
 # Initialize the dictionary for uploaded files in session state (if not already initialized)
 if "uploaded_files" not in st.session_state:
     st.session_state.uploaded_files = {
-        "HC_SEMIAUTO_RESULT": None,
-        "ONE_LEG_SCENARIO_RESULTS": None,
-        "CAPACITY_SUMMARY": None,
-        "Segregated_HC_SEMI_AUTO": None,
-        "Segregated_ONE_LEG_SCENARIO_RESULTS": None
+        "HC_SEMIAUTO_RESULT": fetch_github_file("HC_SEMIAUTO_RESULT.xlsx"),
+        "ONE_LEG_SCENARIO_RESULTS": fetch_github_file("ONE_LEG_SCENARIO_RESULTS.xlsx"),
+        "CAPACITY_SUMMARY": fetch_github_file("CAPACITY_SUMMARY.xlsx"),
+        "Segregated_HC_SEMI_AUTO": fetch_github_file("Segregated_HC_SEMI_AUTO.xlsx"),
+        "Segregated_ONE_LEG_SCENARIO_RESULTS": fetch_github_file("Segregated_ONE_LEG_SCENARIO_RESULTS.xlsx")
     }
 
 # Display uploaders if the files are not yet uploaded
