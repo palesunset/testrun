@@ -147,18 +147,18 @@ def display_pie_charts(df, sheet_name):
 
         fig, ax = plt.subplots(figsize=(4, 3), dpi=1000)  # Adjusted the size for better visibility
 
-        wedges, texts = ax.pie(temp_dist, labels=non_zero_labels, colors=colors, startangle=140, wedgeprops=dict(width=0.3), textprops=dict(size=10))
+        wedges, texts = ax.pie(temp_dist, labels=non_zero_labels, colors=colors, startangle=120, wedgeprops=dict(width=0.2), textprops=dict(size=10))
         
         # Get the total counts for each segment
         segment_counts = [f"{label} = ({int(temp_dist[label])})" for label in labels]
 
         # Position the legend below the donut but centered vertically
-        ax.legend(wedges, segment_counts, loc="center", fontsize=10, bbox_to_anchor=(0.5, -0.2), frameon=False)
+        ax.legend(wedges, segment_counts, loc="center", fontsize=7, bbox_to_anchor=(0.5, -0.2), frameon=False)
 
-        ax.set_title(link_type, fontsize=10)
+        ax.set_title(link_type, fontsize=8)
         
         fig.tight_layout()
-        cols[chart_counter % 3].pyplot(fig, use_container_width=True)
+        cols[chart_counter % 5].pyplot(fig, use_container_width=True)
         chart_counter += 1
 
 def plot_altair_bar_chart_with_labels(df, x_col, y_col, title, sequence=None, width=600, height=400):
