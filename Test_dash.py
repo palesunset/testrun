@@ -153,9 +153,9 @@ def display_pie_charts(df, sheet_name):
         segment_counts = [f"{label} = ({int(temp_dist[label])})" for label in labels]
 
         # Position the legend below the donut but centered vertically
-        ax.legend(wedges, segment_counts, loc="center", fontsize=7, bbox_to_anchor=(0.5, -0.2), frameon=False)
+        ax.legend(wedges, segment_counts, loc="center", fontsize=5, bbox_to_anchor=(0.5, -0.2), frameon=False)
 
-        ax.set_title(link_type, fontsize=8)
+        ax.set_title(link_type, fontsize=9)
         
         fig.tight_layout()
         cols[chart_counter % 5].pyplot(fig, use_container_width=True)
