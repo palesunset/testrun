@@ -120,10 +120,19 @@ def generate_table_data(df):
         table_data.append([link_type] + [int(x) for x in counts.tolist()] + [int(total)])
     
     # Calculate the totals for each column and append to table_data
-    totals = [sum(x) for x in zip(*table_data)][1:]  # Calculate sum of each column, excluding the first one (link type)
-    table_data.append(['Total'] + totals)
+    transposed_data = list(zip(*table_data))
+    totals = []
 
-    return table_data
+    for column in transposed_data:
+        if isinstance(column[0], str):
+            totals.append("N/A")
+        else:
+            totals.append(sum(column))
+
+    # Exclude the first column (link type)
+    totals = totals[1:]
+
+    return table_data, totals  # You probably want to return the table_data and the totals, adjust as needed
 
 def display_pie_charts(df, sheet_name):
     df_cleaned = df.dropna(subset=['Peak Utilization %', 'Segment', 'Region', 'Link Type']).copy()
