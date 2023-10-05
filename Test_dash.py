@@ -16,7 +16,13 @@ def fetch_github_file(file_name):
         return None
 
 # Try fetching from GitHub first
-df1 = pd.read_excel(fetch_github_file("HC_SEMIAUTO_RESULT.xlsx") or st.session_state.uploaded_files.get("HC_SEMIAUTO_RESULT"))
+if "HC_SEMIAUTO_RESULT" in st.session_state.uploaded_files and st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"] is not None:
+    df1 = pd.read_excel(st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"])
+else:
+    try:
+        df1 = pd.read_excel(fetch_github_file("HC_SEMIAUTO_RESULT.xlsx"))
+    except:
+        st.error("Failed to fetch the file from GitHub and no uploaded file found.")
 
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
