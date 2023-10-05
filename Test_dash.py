@@ -118,6 +118,10 @@ def generate_table_data(df):
             counts = temp_df.groupby('Utilization Range').size().reindex(labels).fillna(0)
         total = counts.sum()
         table_data.append([link_type] + [int(x) for x in counts.tolist()] + [int(total)])
+    
+    # Calculate the totals for each column and append to table_data
+    totals = [sum(x) for x in zip(*table_data)][1:]  # Calculate sum of each column, excluding the first one (link type)
+    table_data.append(['Total'] + totals)
 
     return table_data
 
