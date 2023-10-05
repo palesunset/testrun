@@ -145,17 +145,17 @@ def display_pie_charts(df, sheet_name):
         # Construct legend labels with counts
         legend_labels = [f"{label} = ({int(count)})" for label, count in temp_dist.items()]
 
-        fig, ax = plt.subplots(figsize=(8, 6), dpi=1000)  # Adjusted the size for better visibility
+        fig, ax = plt.subplots(figsize=(4, 3), dpi=1000)  # Adjusted the size for better visibility
 
-        wedges, texts = ax.pie(temp_dist, labels=non_zero_labels, colors=colors, startangle=140, wedgeprops=dict(width=0.3), textprops=dict(size=18))
+        wedges, texts = ax.pie(temp_dist, labels=non_zero_labels, colors=colors, startangle=140, wedgeprops=dict(width=0.3), textprops=dict(size=10))
         
         # Get the total counts for each segment
         segment_counts = [f"{label} = ({int(temp_dist[label])})" for label in labels]
 
         # Position the legend below the donut but centered vertically
-        ax.legend(wedges, segment_counts, loc="center", fontsize=16, bbox_to_anchor=(0.5, -0.2), frameon=False)
+        ax.legend(wedges, segment_counts, loc="center", fontsize=10, bbox_to_anchor=(0.5, -0.2), frameon=False)
 
-        ax.set_title(link_type, fontsize=24)
+        ax.set_title(link_type, fontsize=12)
         
         fig.tight_layout()
         cols[chart_counter % 3].pyplot(fig, use_container_width=True)
