@@ -16,7 +16,7 @@ def fetch_github_file(file_name):
         return None
 
 # Try fetching from GitHub first
-if "HC_SEMIAUTO_RESULT" in st.session_state.uploaded_files and st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"] is not None:
+if "uploaded_files" in st.session_state and "HC_SEMIAUTO_RESULT" in st.session_state.uploaded_files and st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"] is not None:
     df1 = pd.read_excel(st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"])
 else:
     try:
