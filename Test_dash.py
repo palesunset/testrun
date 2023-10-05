@@ -129,7 +129,7 @@ def display_pie_charts(df, sheet_name):
     link_types = df_cleaned['Link Type'].unique()
 
     chart_counter = 0
-    cols = st.columns(3)  # Create 3 columns for horizontal layout
+    cols = st.columns(5)  # Create 3 columns for horizontal layout
 
     for link_type in link_types:
         if link_type == "Backend":
@@ -155,7 +155,7 @@ def display_pie_charts(df, sheet_name):
         # Position the legend below the donut but centered vertically
         ax.legend(wedges, segment_counts, loc="center", fontsize=10, bbox_to_anchor=(0.5, -0.2), frameon=False)
 
-        ax.set_title(link_type, fontsize=12)
+        ax.set_title(link_type, fontsize=10)
         
         fig.tight_layout()
         cols[chart_counter % 3].pyplot(fig, use_container_width=True)
