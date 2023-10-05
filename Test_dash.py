@@ -214,7 +214,12 @@ def display_table(uploaded_file):
             display_name = list(custom_names_colors.keys())[index] if index < len(custom_names_colors) else sheet_name
             color = custom_names_colors.get(display_name, "black")  # Default color is black if not found
             st.markdown(f"<h3 style='color: {color};'>{display_name}</h3>", unsafe_allow_html=True)
-            st.write(df_temp)
+
+            # Set styles for the dataframe
+            df_style = st.dataframe(df_temp.style.set_properties(**{
+                'text-align': 'center',
+                'width': '50px'  # Modify this to adjust the width of columns
+            }))
 
 # Displaying Content Based on Selected Radio Button Option
 
