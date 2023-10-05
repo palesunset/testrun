@@ -218,7 +218,7 @@ def display_table(uploaded_file):
             # Set styles for the dataframe
             df_style = st.dataframe(df_temp.style.set_properties(**{
                 'text-align': 'center',
-                'width': '50px'  # Modify this to adjust the width of columns
+                'width': '100px'  # Modify this to adjust the width of columns
             }))
 
 # Displaying Content Based on Selected Radio Button Option
@@ -270,15 +270,15 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT CAPACITY":
         
         with cols[0]:
             st.subheader("Provisioned Capacity (GBPS) - Regionalized")
-            plot_altair_bar_chart_with_labels(df_capacity_1_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 1', sequence_1, width=400, height=400)
+            plot_altair_bar_chart_with_labels(df_capacity_1_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 1', sequence_1, width=450, height=400)
         
         with cols[1]:
             st.subheader("Provisoned Capacity (GPBS) - Per Segment")
-            plot_altair_bar_chart_with_labels(df_capacity_2_grouped, 'Link Type', 'Total Capacity (Gbps)', 'Link Type vs Total Capacity (Gbps) from Sheet 2', width=400, height=400)
+            plot_altair_bar_chart_with_labels(df_capacity_2_grouped, 'Link Type', 'Total Capacity (Gbps)', 'Link Type vs Total Capacity (Gbps) from Sheet 2', width=450, height=400)
         
         with cols[2]:
             st.subheader("Provisoned Capacity (GBPS) - ONE-LEG")
-            plot_altair_bar_chart_with_labels(df_capacity_3_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 3', sequence_3, width=400, height=400)
+            plot_altair_bar_chart_with_labels(df_capacity_3_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 3', sequence_3, width=450, height=400)
 
 elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION)":
     if st.session_state.uploaded_files["Segregated_HC_SEMI_AUTO"]:
