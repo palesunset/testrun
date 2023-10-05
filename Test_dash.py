@@ -215,16 +215,32 @@ def display_table(uploaded_file):
     }
 
     xls = pd.ExcelFile(uploaded_file)
+    tables = []  # To store the dataframes for each table
+
     for index, sheet_name in enumerate(xls.sheet_names):
         df_temp = pd.read_excel(uploaded_file, sheet_name=sheet_name)
         if 'Peak Utilization %' in df_temp.columns:
             df_temp['Peak Utilization %'] = df_temp['Peak Utilization %'].apply(lambda x: f"{x*100:.2f}%")  # Convert to percentage format
         if not df_temp.empty:
-            # Use the custom name if it's within the keys of custom_names_colors, otherwise, default to sheet_name
-            display_name = list(custom_names_colors.keys())[index] if index < len(custom_names_colors) else sheet_name
-            color = custom_names_colors.get(display_name, "black")  # Default color is black if not found
-            st.markdown(f"<h3 style='color: {color};'>{display_name}</h3>", unsafe_allow_html=True)
-            st.write(df_temp)
+            tables.append(df_temp)
+
+    # Set up the 2x2 table layout
+    if len(tables) == 4:  # Ensure we have exactly 4 tables to display
+        cols1 = st.columns(2)
+        with cols1[0]:
+            st.markdown(f"<h3 style='color: {custom_names_colors['Normal Links']}';>{'Normal Links'}</h3>", unsafe_allow_html=True)
+            st.write(tables[0])
+        with cols1[1]:
+            st.markdown(f"<h3 style='color: {custom_names_colors['Warning Links']}';>{'Warning Links'}</h3>", unsafe_allow_html=True)
+            st.write(tables[1])
+        
+        cols2 = st.columns(2)
+        with cols2[0]:
+            st.markdown(f"<h3 style='color: {custom_names_colors['Highly Utilized Links']}';>{'Highly Utilized Links'}</h3>", unsafe_allow_html=True)
+            st.write(tables[2])
+        with cols2[1]:
+            st.markdown(f"<h3 style='color: {custom_names_colors['Critical Links']}';>{'Critical Links'}</h3>", unsafe_allow_html=True)
+            st.write(tables[3])
 
 # Displaying Content Based on Selected Radio Button Option
 
