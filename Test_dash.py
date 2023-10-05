@@ -101,31 +101,25 @@ for _ in range(10):
 
 # --------------- 2. Function Definitions ---------------
 
-def display_table(uploaded_file):
-    # Custom names based on sheet order and their respective colors
-    custom_names_colors = {
-        "Normal Links": "green",
-        "Warning Links": "yellow",
-        "Highly Utilized Links": "orange",
-        "Critical Links": "red"
-    }
+def generate_table_data(df):
+    df_cleaned = df.dropna(subset=['Peak Utilization %', 'Segment', 'Region', 'Link Type']).copy()
+    df_cleaned['Peak Utilization %'].fillna(0, inplace=True)
+    bins = [-0.01, 0.4999, 0.6999, 0.8999, float('inf')]
+    df_cleaned['Utilization Range'] = pd.cut(df_cleaned['Peak Utilization %'], bins=bins, labels=labels, right=True)
 
-    xls = pd.ExcelFile(uploaded_file)
-    for index, sheet_name in enumerate(xls.sheet_names):
-        df_temp = pd.read_excel(uploaded_file, sheet_name=sheet_name)
-        if 'Peak Utilization %' in df_temp.columns:
-            df_temp['Peak Utilization %'] = df_temp['Peak Utilization %'].apply(lambda x: f"{x*100:.2f}%")  # Convert to percentage format
-        
-        if not df_temp.empty:
-            # Use the custom name if it's within the keys of custom_names_colors, otherwise, default to sheet_name
-            display_name = list(custom_names_colors.keys())[index] if index < len(custom_names_colors) else sheet_name
-            color = custom_names_colors.get(display_name, "black")  # Default color is black if not found
-            
-            st.markdown(f"<h3 style='color: {color};'>{display_name}</h3>", unsafe_allow_html=True)
+    link_types = [lt for lt in df_cleaned['Link Type'].unique() if lt != "Backend"]
+    table_data = []
 
-            # Centering table display
-            cols = st.columns(3)
-            cols[1].table(df_temp)
+    for link_type in link_types:
+        temp_df = df_cleaned[df_cleaned['Link Type'] == link_type]
+        if 'Number of Links' in df_cleaned.columns:
+            counts = temp_df.groupby('Utilization Range')['Number of Links'].sum().reindex(labels).fillna(0)
+        else:
+            counts = temp_df.groupby('Utilization Range').size().reindex(labels).fillna(0)
+        total = counts.sum()
+        table_data.append([link_type] + [int(x) for x in counts.tolist()] + [int(total)])
+
+    return table_data
 
 def display_pie_charts(df, sheet_name):
     df_cleaned = df.dropna(subset=['Peak Utilization %', 'Segment', 'Region', 'Link Type']).copy()
