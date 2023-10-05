@@ -6,6 +6,8 @@ import altair as alt
 import requests
 from io import BytesIO
 
+st.set_page_config(layout="wide")
+
 def fetch_github_file(file_name):
     base_url = "https://raw.githubusercontent.com/palesunset/testrun/main/"
     try:
