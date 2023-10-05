@@ -193,7 +193,17 @@ def plot_altair_bar_chart_with_labels(df, x_col, y_col, title, sequence=None, wi
 
     st.altair_chart(chart)
 
-
+# Additional CSS to style the tables
+st.markdown("""
+    <style>
+        table.dataframe {
+            width: 100%;
+        }
+        table.dataframe th, table.dataframe td {
+            text-align: center;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 def display_table(uploaded_file):
     # Custom names based on sheet order and their respective colors
@@ -214,12 +224,7 @@ def display_table(uploaded_file):
             display_name = list(custom_names_colors.keys())[index] if index < len(custom_names_colors) else sheet_name
             color = custom_names_colors.get(display_name, "black")  # Default color is black if not found
             st.markdown(f"<h3 style='color: {color};'>{display_name}</h3>", unsafe_allow_html=True)
-
-            # Set styles for the dataframe
-            df_style = st.dataframe(df_temp.style.set_properties(**{
-                'text-align': 'center',
-                'width': '100px'  # Modify this to adjust the width of columns
-            }))
+            st.write(df_temp)
 
 # Displaying Content Based on Selected Radio Button Option
 
@@ -270,11 +275,11 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT CAPACITY":
         
         with cols[0]:
             st.subheader("Provisioned Capacity (GBPS) - Regionalized")
-            plot_altair_bar_chart_with_labels(df_capacity_1_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 1', sequence_1, width=500, height=450)
+            plot_altair_bar_chart_with_labels(df_capacity_1_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 1', sequence_1, width=500, height=440)
         
         with cols[1]:
             st.subheader("Provisoned Capacity (GPBS) - Per Segment")
-            plot_altair_bar_chart_with_labels(df_capacity_2_grouped, 'Link Type', 'Total Capacity (Gbps)', 'Link Type vs Total Capacity (Gbps) from Sheet 2', width=500, height=500)
+            plot_altair_bar_chart_with_labels(df_capacity_2_grouped, 'Link Type', 'Total Capacity (Gbps)', 'Link Type vs Total Capacity (Gbps) from Sheet 2', width=500, height=490)
         
         with cols[2]:
             st.subheader("Provisoned Capacity (GBPS) - ONE-LEG")
