@@ -122,18 +122,6 @@ def display_table(uploaded_file):
             color = custom_names_colors.get(display_name, "black")  # Default color is black if not found
             
             st.markdown(f"<h3 style='color: {color};'>{display_name}</h3>", unsafe_allow_html=True)
-            
-            # Embed custom CSS for table styling
-            st.markdown("""
-                <style>
-                    table {
-                        width: 70%;  # Adjust this value for your preferred width
-                        margin-left: auto;
-                        margin-right: auto;
-                        font-size: 14px;  # Adjust font size here
-                    }
-                </style>
-            """, unsafe_allow_html=True)
 
             # Centering table display
             cols = st.columns(3)
@@ -165,7 +153,7 @@ def display_pie_charts(df, sheet_name):
 
         fig, ax = plt.subplots(figsize=(4, 3), dpi=1000)  # Adjusted the size for better visibility
 
-        wedges, texts = ax.pie(temp_dist, labels=non_zero_labels, colors=colors, startangle=120, wedgeprops=dict(width=0.2), textprops=dict(size=7))
+        wedges, texts = ax.pie(temp_dist, labels=non_zero_labels, colors=colors, startangle=120, wedgeprops=dict(width=0.3), textprops=dict(size=7))
         
         # Get the total counts for each segment
         segment_counts = [f"{label} = ({int(temp_dist[label])})" for label in labels]
