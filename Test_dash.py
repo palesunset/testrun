@@ -265,15 +265,15 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT CAPACITY":
         
         with cols[0]:
             st.subheader("Provisioned Capacity (GBPS) - Regionalized")
-            plot_altair_bar_chart_with_labels(df_capacity_1_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 1', sequence_1, width=400, height=500)
+            plot_altair_bar_chart_with_labels(df_capacity_1_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 1', sequence_1, width=400, height=400)
         
         with cols[1]:
             st.subheader("Provisoned Capacity (GPBS) - Per Segment")
-            plot_altair_bar_chart_with_labels(df_capacity_2_grouped, 'Link Type', 'Total Capacity (Gbps)', 'Link Type vs Total Capacity (Gbps) from Sheet 2', width=400, height=500)
+            plot_altair_bar_chart_with_labels(df_capacity_2_grouped, 'Link Type', 'Total Capacity (Gbps)', 'Link Type vs Total Capacity (Gbps) from Sheet 2', width=400, height=400)
         
         with cols[2]:
-            st.subheader("Provisoned Capacity (GBPS) - ONE - LEG SCENARIO")
-            plot_altair_bar_chart_with_labels(df_capacity_3_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 3', sequence_3, width=400, height=500)
+            st.subheader("Provisoned Capacity (GBPS) - ONE-LEG")
+            plot_altair_bar_chart_with_labels(df_capacity_3_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 3', sequence_3, width=400, height=400)
 
 elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION)":
     if st.session_state.uploaded_files["Segregated_HC_SEMI_AUTO"]:
