@@ -187,11 +187,17 @@ def plot_altair_bar_chart_with_labels(df, x_col, y_col, title, sequence=None, wi
 
     st.altair_chart(chart)
 
-
-
 def display_table(uploaded_file):
-    # Custom names based on sheet order and their respective colors
-    custom_names_colors = {
+    # Sheet name to title mapping
+    sheet_to_title = {
+        "49.99% and Below": "Normal Links",
+        "50% to 69.99%": "Warning Links",
+        "70% to 89.99%": "Highly Utilized Links",
+        "90% and Above": "Critical Links"
+    }
+    
+    # Title to color mapping
+    title_colors = {
         "Normal Links": "green",
         "Warning Links": "yellow",
         "Highly Utilized Links": "orange",
@@ -199,16 +205,35 @@ def display_table(uploaded_file):
     }
 
     xls = pd.ExcelFile(uploaded_file)
+    table_dataframes = {}  # To store the dataframes for each table
+
     for index, sheet_name in enumerate(xls.sheet_names):
         df_temp = pd.read_excel(uploaded_file, sheet_name=sheet_name)
         if 'Peak Utilization %' in df_temp.columns:
             df_temp['Peak Utilization %'] = df_temp['Peak Utilization %'].apply(lambda x: f"{x*100:.2f}%")  # Convert to percentage format
-        if not df_temp.empty:
-            # Use the custom name if it's within the keys of custom_names_colors, otherwise, default to sheet_name
-            display_name = list(custom_names_colors.keys())[index] if index < len(custom_names_colors) else sheet_name
-            color = custom_names_colors.get(display_name, "black")  # Default color is black if not found
-            st.markdown(f"<h3 style='color: {color};'>{display_name}</h3>", unsafe_allow_html=True)
-            st.write(df_temp)
+
+        table_dataframes[sheet_name] = df_temp
+
+    # Use Streamlit columns to structure your display
+    col1, col2 = st.columns(2)
+
+    # Display tables for col1
+    for sheet_name, title in [("49.99% and Below", "Normal Links"), ("70% to 89.99%", "Highly Utilized Links")]:
+        df = table_dataframes.get(sheet_name)
+        if df is not None:
+            color = title_colors.get(title, "black")
+            with col1:
+                st.markdown(f"<h3 style='color: {color};'>{title}</h3>", unsafe_allow_html=True)
+                st.write(df)
+
+    # Display tables for col2
+    for sheet_name, title in [("50% to 69.99%", "Warning Links"), ("90% and Above", "Critical Links")]:
+        df = table_dataframes.get(sheet_name)
+        if df is not None:
+            color = title_colors.get(title, "black")
+            with col2:
+                st.markdown(f"<h3 style='color: {color};'>{title}</h3>", unsafe_allow_html=True)
+                st.write(df)
 
 # Displaying Content Based on Selected Radio Button Option
 
