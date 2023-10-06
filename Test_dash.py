@@ -8,6 +8,21 @@ from io import BytesIO
 
 st.set_page_config(layout="wide")
 
+st.markdown("""
+    <style>
+        .st-bf {  # This targets the title
+            font-size: 32px;
+        }
+        .st-bh {  # This targets the header
+            font-size: 20px;
+        }
+        .st-cm {  # This targets the subheader
+            font-size: 24px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 def fetch_github_file(file_name):
     base_url = "https://raw.githubusercontent.com/palesunset/testrun/main/"
     try:
