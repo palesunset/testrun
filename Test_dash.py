@@ -100,7 +100,7 @@ selected_option = st.selectbox("NAVIGATION BAR", [
     "IPCORE TRANSPORT SEGMENT SUMMARY",
     "IPCORE TRANSPORT SEGMENTS CHARTS",
     "IPCORE TRANSPORT SEGMENT CAPACITY",
-    "IPCORE TRANSPORT SEGMENT (UTILIZATION)",
+    "IPCORE TRANSPORT SEGMENT (UTILIZATION) - NORMAL SCENARIO",
     "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENARIO"
 ])
 
@@ -273,7 +273,7 @@ elif selected_option == "IPCORE TRANSPORT SEGMENTS CHARTS":
     
     if st.session_state.uploaded_files["ONE_LEG_SCENARIO_RESULTS"]:
         df2 = pd.read_excel(st.session_state.uploaded_files["ONE_LEG_SCENARIO_RESULTS"])
-        st.subheader("ONE-LEG SCENARIO CHARTS")
+        st.subheader("IPCORE TRANSPORT SEGMENTS (ONE-LEG SCENARIO) CHARTS")
         display_pie_charts(df2, "ONE-LEG SCENARIO")
 
 
