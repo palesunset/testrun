@@ -309,7 +309,7 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT CAPACITY":
             st.subheader("Provisoned Capacity (GBPS) - ONE-LEG")
             plot_altair_bar_chart_with_labels(df_capacity_3_grouped, 'Region', 'Total Capacity (Gbps)', 'Region vs Total Capacity (Gbps) from Sheet 3', sequence_3, width=350, height=300)
 
-elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION)":
+elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - NORMAL SCENARIO":
     if st.session_state.uploaded_files["Segregated_HC_SEMI_AUTO"]:
         display_table(st.session_state.uploaded_files["Segregated_HC_SEMI_AUTO"])
 
