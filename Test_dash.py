@@ -301,6 +301,10 @@ def display_table(uploaded_file):
                 st.markdown(f"<h3 style='color: {color};'>{title}</h3>", unsafe_allow_html=True)
                 st.write(df)
 
+# 1. Load the excel file and extract the unique link types
+df_updated = pd.read_excel(st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"])
+link_types = df_updated['Link Type'].unique().tolist()
+
 # Displaying Content Based on Selected Radio Button Option
 
 if selected_option == "IPCORE TRANSPORT SEGMENT SUMMARY":
@@ -370,6 +374,16 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENAR
 
 elif selected_option == "SEGMENT MAP":
     if st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"]:
-        df = pd.read_excel(st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"])
-        generate_sankey_chart(df)
+        
+        # This part goes inside the "SEGMENT MAP" condition
+        selected_link_types = st.multiselect('Select Link Types', link_types, default=link_types)
+        
+        # Filter the dataframe based on the selected link types
+        filtered_df = df_updated[df_updated['Link Type'].isin(selected_link_types)]
+        
+        if filtered_df.empty:
+            st.warning("No data available for the selected link types.")
+        else:
+            generate_sankey_chart(filtered_df)
+
 
