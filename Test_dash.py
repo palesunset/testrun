@@ -5,6 +5,7 @@ import numpy as np
 import altair as alt
 import requests
 from io import BytesIO
+import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
 
@@ -34,6 +35,51 @@ def fetch_github_file(file_name):
 
 # Try fetching from GitHub first
 df1 = pd.read_excel(fetch_github_file("HC_SEMIAUTO_RESULT.xlsx") or st.session_state.uploaded_files.get("HC_SEMIAUTO_RESULT"))
+
+def get_color(value):
+    if isinstance(value, str) and '%' in value:
+        value = float(value.strip('%'))
+    elif isinstance(value, float) and 0 <= value <= 1:
+        value *= 100
+
+    if value < 50:
+        return 'green'
+    elif 50 <= value < 70:
+        return 'yellow'
+    elif 70 <= value < 90:
+        return 'orange'
+    return 'red'
+
+def generate_sankey_chart(df):
+    filtered_df = df
+    all_nodes = pd.concat([filtered_df['From'], filtered_df['To']]).unique().tolist()
+    nodes = [{"name": node} for node in all_nodes]
+    links = [
+        {
+            "source": all_nodes.index(row['From']),
+            "target": all_nodes.index(row['To']),
+            "value": row['Total Capacity (Gbps)'],
+            "color": get_color(row['Peak Utilization %'])
+        }
+        for _, row in filtered_df.iterrows()
+    ]
+
+    data = dict(
+        type='sankey',
+        node=dict(
+            pad=20,
+            thickness=20,
+            line=dict(color="black", width=0.2),
+            label=[node['name'] for node in nodes]
+        ),
+        link=dict(
+            source=[link['source'] for link in links],
+            target=[link['target'] for link in links],
+            value=[link['value'] for link in links],
+            color=[link['color'] for link in links]
+        )
+    )
+    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000)))
 
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
@@ -102,6 +148,7 @@ selected_option = st.selectbox("NAVIGATION BAR", [
     "IPCORE TRANSPORT SEGMENT CAPACITY",
     "IPCORE TRANSPORT SEGMENT (UTILIZATION) - NORMAL SCENARIO",
     "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENARIO",
+    "SEGMENT MAP"  # <-- Add this line
 ])
 
 # Create space below the dropdown to push following content downwards.
@@ -316,3 +363,8 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - NORMAL SCENARI
 elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENARIO":
     if st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"]:
         display_table(st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"])
+
+elif selected_option == "SEGMENT MAP":
+    if st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"]:
+        df = pd.read_excel(st.session_state.uploaded_files["HC_SEMIAUTO_RESULT"])
+        generate_sankey_chart(df)
