@@ -98,7 +98,7 @@ if "uploaded_files" not in st.session_state:
         "ONE_LEG_SCENARIO_RESULTS": fetch_github_file("ONE_LEG_SCENARIO_RESULTS.xlsx"),
         "CAPACITY_SUMMARY": fetch_github_file("CAPACITY_SUMMARY.xlsx"),
         "Segregated_HC_SEMI_AUTO": fetch_github_file("Segregated_HC_SEMI_AUTO.xlsx"),
-        "HC_SEMI_AUTO_updated": fetch_github_file("HC_SEMIAUTO_RESULT_updated.xlsx"),
+        ""HC_SEMIAUTO_RESULT_updated": fetch_github_file("HC_SEMIAUTO_RESULT_updated.xlsx"),
         "Segregated_ONE_LEG_SCENARIO_RESULTS": fetch_github_file("Segregated_ONE_LEG_SCENARIO_RESULTS.xlsx")
     }
 
