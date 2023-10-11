@@ -376,7 +376,8 @@ elif selected_option == "SEGMENT MAP":
     if st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"]:
         
         # This part goes inside the "SEGMENT MAP" condition
-        selected_link_types = st.multiselect('Select Link Types', link_types, default=link_types)
+        default_link_type = [link_types[0]] if link_types else []  # Default to the first link type, or empty if there's no link type
+        selected_link_types = st.multiselect('Select Link Types', link_types, default=default_link_type)
         
         # Filter the dataframe based on the selected link types
         filtered_df = df_updated[df_updated['Link Type'].isin(selected_link_types)]
@@ -385,5 +386,6 @@ elif selected_option == "SEGMENT MAP":
             st.warning("No data available for the selected link types.")
         else:
             generate_sankey_chart(filtered_df)
+
 
 
