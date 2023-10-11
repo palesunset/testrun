@@ -67,7 +67,7 @@ def generate_sankey_chart(df):
     data = dict(
         type='sankey',
         node=dict(
-            pad=20,
+            pad=30,
             thickness=20,
             line=dict(color="black", width=0.2),
             label=[node['name'] for node in nodes]
@@ -79,7 +79,7 @@ def generate_sankey_chart(df):
             color=[link['color'] for link in links]
         )
     )
-    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=1700)))
+    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=1750)))
 
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
