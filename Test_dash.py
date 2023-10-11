@@ -98,7 +98,7 @@ if "uploaded_files" not in st.session_state:
         "ONE_LEG_SCENARIO_RESULTS": fetch_github_file("ONE_LEG_SCENARIO_RESULTS.xlsx"),
         "CAPACITY_SUMMARY": fetch_github_file("CAPACITY_SUMMARY.xlsx"),
         "Segregated_HC_SEMI_AUTO": fetch_github_file("Segregated_HC_SEMI_AUTO.xlsx"),
-        "HC_SEMI_AUTO_updated": fetch_github_file("HC_SEMI_AUTO_updated.xlsx"),
+        "HC_SEMI_AUTO_updated": fetch_github_file("HC_SEMIAUTO_RESULT_updated.xlsx"),
         "Segregated_ONE_LEG_SCENARIO_RESULTS": fetch_github_file("Segregated_ONE_LEG_SCENARIO_RESULTS.xlsx")
     }
 
@@ -118,8 +118,8 @@ if not st.session_state.uploaded_files["Segregated_HC_SEMI_AUTO"]:
 if not st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"]:
     st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"] = st.file_uploader("Upload Segregated_ONE_LEG_SCENARIO_RESULTS.xlsx", type=['xlsx'], key="uploader_5")
     
-if not st.session_state.uploaded_files["HC_SEMI_AUTO_updated"]:  # Add this block
-    st.session_state.uploaded_files["HC_SEMI_AUTO_updated"] = st.file_uploader("Upload HC_SEMI_AUTO_updated.xlsx", type=['xlsx'], key="uploader_HC_SEMI_AUTO_updated")
+if not st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"]:  # Add this block
+    st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"] = st.file_uploader("Upload HC_SEMIAUTO_RESULT_updated.xlsx", type=['xlsx'], key="uploader_HC_SEMIAUTO_RESULT_updated")
     
 # If all files are uploaded, display a success message.
 if all(st.session_state.uploaded_files.values()):
@@ -369,7 +369,7 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENAR
         display_table(st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"])
 
 elif selected_option == "SEGMENT MAP":
-    if st.session_state.uploaded_files["HC_SEMI_AUTO_updated"]:
-        df = pd.read_excel(st.session_state.uploaded_files["HC_SEMI_AUTO_updated"])
+    if st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"]:
+        df = pd.read_excel(st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"])
         generate_sankey_chart(df)
 
