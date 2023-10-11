@@ -5,8 +5,6 @@ import numpy as np
 import altair as alt
 import requests
 from io import BytesIO
-import streamlit as st
-from streamlit_dash import st_embed_dash
 
 st.set_page_config(layout="wide")
 
@@ -104,7 +102,6 @@ selected_option = st.selectbox("NAVIGATION BAR", [
     "IPCORE TRANSPORT SEGMENT CAPACITY",
     "IPCORE TRANSPORT SEGMENT (UTILIZATION) - NORMAL SCENARIO",
     "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENARIO",
-    "SEGMENT MAP"  # <-- New Option
 ])
 
 # Create space below the dropdown to push following content downwards.
@@ -319,7 +316,3 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - NORMAL SCENARI
 elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENARIO":
     if st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"]:
         display_table(st.session_state.uploaded_files["Segregated_ONE_LEG_SCENARIO_RESULTS"])
-
-elif selected_option == "SEGMENT MAP":
-    st.header("Segment Map (Sankey Diagram)")
-    st_embed_dash("Segment Map", "sankey.py")
