@@ -9,29 +9,6 @@ import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
 
-
-# Embed JavaScript to get screen width
-screen_width = st.slider("Screen Width", 0, 5000, value=0, key="screen_width_slider", format="")
-
-st.markdown("""
-    <script>
-        const updateScreenWidth = () => {
-            setTimeout(() => {
-                let slider = document.querySelector("[data-testid='stSlider'][aria-label='Screen Width']")
-                if (slider) {
-                    slider.querySelector("input").value = window.innerWidth
-                    slider.querySelector("input").dispatchEvent(new Event('change', { 'bubbles': true }))
-                }
-            }, 100)
-        }
-        updateScreenWidth()
-        window.onresize = updateScreenWidth
-    </script>
-    """,
-    unsafe_allow_html=True
-)
-
-
 #------------------
 st.markdown("""
     <style>
@@ -410,16 +387,3 @@ elif selected_option == "SEGMENT MAP":
             st.warning("No data available for the selected link types.")
         else:
             generate_sankey_chart(filtered_df)
-        
-        # Default width for the Sankey chart
-        sankey_width = 1760  # or any reasonable default
-
-        # Update width only if screen_width is within a reasonable range
-        if 100 < screen_width < 3000:
-            sankey_width = screen_width
-
-        # Then you generate the Sankey chart with the new width
-        generate_sankey_chart(filtered_df, width=sankey_width)  # Pass width as a parameter
-
-
-
