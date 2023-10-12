@@ -387,7 +387,7 @@ elif selected_option == "SEGMENT MAP":
             st.warning("No data available for the selected link types.")
         else:
             # Create a 3-column layout: left (blank), center (Sankey chart), right (blank)
-            col1, col2, col3 = st.columns([0.2, 7.6, 0.2])  # Adjust the numbers to modify width proportionally if needed
+            col1, col2, col3 = st.columns([0.1, 8, 0.1])  # Adjust the numbers to modify width proportionally if needed
 
             # Only use the middle column to display the Sankey chart
             with col2:
