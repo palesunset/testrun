@@ -103,7 +103,7 @@ def generate_sankey_chart(df):
             color=[link['color'] for link in links]
         )
     )
-    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=screen_width)))
+    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=width)))
 
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
@@ -410,6 +410,16 @@ elif selected_option == "SEGMENT MAP":
             st.warning("No data available for the selected link types.")
         else:
             generate_sankey_chart(filtered_df)
+        
+        # Default width for the Sankey chart
+        sankey_width = 1760  # or any reasonable default
+
+        # Update width only if screen_width is within a reasonable range
+        if 100 < screen_width < 3000:
+            sankey_width = screen_width
+
+        # Then you generate the Sankey chart with the new width
+        generate_sankey_chart(filtered_df, width=sankey_width)  # Pass width as a parameter
 
 
 
