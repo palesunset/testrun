@@ -51,7 +51,7 @@ def get_color(value):
         return 'orange'
     return 'red'
 
-def generate_sankey_chart(df):
+def generate_sankey_chart(df, width=1500):
     filtered_df = df
     all_nodes = pd.concat([filtered_df['From'], filtered_df['To']]).unique().tolist()
     nodes = [{"name": node} for node in all_nodes]
@@ -80,7 +80,7 @@ def generate_sankey_chart(df):
             color=[link['color'] for link in links]
         )
     )
-    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=1500)))
+    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=width)))
 
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
@@ -376,7 +376,6 @@ elif selected_option == "IPCORE TRANSPORT SEGMENT (UTILIZATION) - ONE-LEG SCENAR
 elif selected_option == "SEGMENT MAP":
     if st.session_state.uploaded_files["HC_SEMIAUTO_RESULT_updated"]:
         
-        # This part goes inside the "SEGMENT MAP" condition
         default_link_type = [link_types[0]] if link_types else []  # Default to the first link type, or empty if there's no link type
         selected_link_types = st.multiselect('Select Link Types', link_types, default=default_link_type)
         
@@ -386,4 +385,10 @@ elif selected_option == "SEGMENT MAP":
         if filtered_df.empty:
             st.warning("No data available for the selected link types.")
         else:
-            generate_sankey_chart(filtered_df)
+            # Add width selection dropdown here
+            width_options = [800, 1000, 1200, 1400, 1600]  # Different width options
+            selected_width = st.selectbox("Select Chart Width", width_options, index=2)  # Default to 1200
+
+            # Now use this selected_width for your Sankey chart
+            generate_sankey_chart(filtered_df, width=selected_width)  # Pass width to function
+
