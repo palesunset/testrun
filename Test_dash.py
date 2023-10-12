@@ -68,8 +68,8 @@ def generate_sankey_chart(df):
     data = dict(
         type='sankey',
         node=dict(
-            pad=50,
-            thickness=20,
+            pad=20,
+            thickness=30,
             line=dict(color="black", width=0.2),
             label=[node['name'] for node in nodes]
         ),
