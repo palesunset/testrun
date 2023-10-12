@@ -9,6 +9,30 @@ import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
 
+
+# Embed JavaScript to get screen width
+screen_width = st.slider("Screen Width", 0, 5000, value=0, key="screen_width_slider", format="")
+
+st.markdown("""
+    <script>
+        const updateScreenWidth = () => {
+            setTimeout(() => {
+                let slider = document.querySelector("[data-testid='stSlider'][aria-label='Screen Width']")
+                if (slider) {
+                    slider.querySelector("input").value = window.innerWidth
+                    slider.querySelector("input").dispatchEvent(new Event('change', { 'bubbles': true }))
+                }
+            }, 100)
+        }
+        updateScreenWidth()
+        window.onresize = updateScreenWidth
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
+
+#------------------
 st.markdown("""
     <style>
         .st-bf {  # This targets the title
@@ -79,7 +103,7 @@ def generate_sankey_chart(df):
             color=[link['color'] for link in links]
         )
     )
-    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=1760)))
+    st.plotly_chart(go.Figure(data=[data], layout=go.Layout(height=1000, width=screen_width)))
 
 
 # --------------- 1. Title, Uploaders, and Predefined Values ---------------
