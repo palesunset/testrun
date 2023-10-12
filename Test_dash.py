@@ -386,4 +386,10 @@ elif selected_option == "SEGMENT MAP":
         if filtered_df.empty:
             st.warning("No data available for the selected link types.")
         else:
-            generate_sankey_chart(filtered_df)
+            # Create a 3-column layout: left (blank), center (Sankey chart), right (blank)
+            col1, col2, col3 = st.columns([1, 6, 1])  # Adjust the numbers to modify width proportionally if needed
+
+            # Only use the middle column to display the Sankey chart
+            with col2:
+                generate_sankey_chart(filtered_df)
+
